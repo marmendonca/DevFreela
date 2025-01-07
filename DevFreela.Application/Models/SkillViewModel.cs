@@ -10,7 +10,12 @@ public class SkillViewModel
     {
         Description = description;
     }
+    
+    public SkillViewModel(int id, string description)
+    {
+        Description = description;
+    }
 
     public static SkillViewModel FromEntity(Skill skill)
-        => new(skill.Description);
+        => new(skill.Id, skill.Description);
 }

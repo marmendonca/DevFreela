@@ -1,8 +1,10 @@
+using DevFreela.Application.Models;
 using DevFreela.Core.Entities;
+using MediatR;
 
-namespace DevFreela.Application.Models;
+namespace DevFreela.Application.Commands.InsertProject;
 
-public class CreateProjectInputModel
+public class InsertProjectCommand : IRequest<ResultViewModel<int>>
 {
     public required string Title { get; set; }
     public required string Description { get; set; }

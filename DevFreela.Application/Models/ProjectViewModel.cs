@@ -24,7 +24,7 @@ public class ProjectViewModel
         ClientName = clientName;
         FreelancerName = freelancerName;
         TotalCost = totalCost;
-        Comments = comments is null ? [] : comments.Select(item => item.Content)?.ToList();
+        Comments = comments?.Count > 0 ? comments.Select(item => item.Content).ToList() : [];
     }
     
     public static ProjectViewModel FromEntity(Project project)

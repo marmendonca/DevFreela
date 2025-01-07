@@ -1,8 +1,10 @@
+using DevFreela.Application.Models;
 using DevFreela.Core.Entities;
+using MediatR;
 
-namespace DevFreela.Application.Models;
+namespace DevFreela.Application.Commands.InsertComment;
 
-public class CreateProjectCommentInputModel
+public class InsertCommentCommand : IRequest<ResultViewModel>
 {
     public int IdProject { get; set; }
     public int IdUser { get; set; }
