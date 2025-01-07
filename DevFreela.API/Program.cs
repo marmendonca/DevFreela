@@ -1,5 +1,4 @@
 using DevFreela.API.ExceptionHandler;
-using DevFreela.API.Models;
 using DevFreela.Application.Modules;
 using DevFreela.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;

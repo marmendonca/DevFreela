@@ -1,18 +1,19 @@
-using DevFreela.API.Models;
-using DevFreela.Application.Models;
-using DevFreela.Application.Services.Interfaces;
+using DevFreela.Application.Commands.Users.CreateUser;
+using DevFreela.Application.Commands.Users.CreateUserSkill;
+using DevFreela.Application.Queries.Users.GetUserById;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevFreela.API.Controllers;
 
 [ApiController]
 [Route("api/users")]
-public class UsersController(IUserService userService) : ControllerBase
+public class UsersController(IMediator mediator) : ControllerBase
 {
     [HttpPost]
-    public IActionResult Post(CreateUserInputModel inputModel)
+    public async Task<IActionResult> Post(CreateUserCommand command)
     {
-        var result = userService.Insert(inputModel);
+        var result = await mediator.Send(command);
         if (!result.IsSuccess)
             return BadRequest(result.Message);
         
@@ -20,9 +21,9 @@ public class UsersController(IUserService userService) : ControllerBase
     }
     
     [HttpGet("{id}")]
-    public IActionResult GetById(int id)
+    public async Task<IActionResult> GetById(int id)
     {
-        var result = userService.GetById(id);
+        var result = await mediator.Send(new GetUserByIdQuery(id));
         if (!result.IsSuccess)
             return BadRequest(result.Message);
         
@@ -30,20 +31,14 @@ public class UsersController(IUserService userService) : ControllerBase
     }
     
     [HttpPost("{id}/skills")]
-    public IActionResult PostSkill(int id, UserSkillInputModel inputModel)
+    public async Task<IActionResult> PostSkill(int id, CreateUserSkillCommand command)
     {
+        command.Id = id;
         
-        var result = userService.InsertSkills(id, inputModel);
+        var result = await mediator.Send(command);
         if (!result.IsSuccess)
             return BadRequest(result.Message);
         
         return NoContent();
-    }
-    
-    [HttpPut("{id}/profile-picture")]
-    public IActionResult PostProfilePicture(int id, IFormFile file)
-    {
-        var description = $"File: {file.FileName}, Size: {file.Length}";
-        return Ok(description);
     }
 }

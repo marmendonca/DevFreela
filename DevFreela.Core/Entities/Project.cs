@@ -21,8 +21,8 @@ public class Project : BaseEntity
     
     public Project(string title, string description, int idClient, int idFreelancer, decimal totalCost)
     {
-        Title = title;
-        Description = description;
+        Title = title ?? throw new ArgumentNullException(nameof(title));
+        Description = description ?? throw new ArgumentNullException(nameof(description));
         IdClient = idClient;
         IdFreelancer = idFreelancer;
         TotalCost = totalCost;
